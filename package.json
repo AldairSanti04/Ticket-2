@@ -1,0 +1,24 @@
+{
+  "name": "ticket-2",
+  "version": "1.0.0",
+  "description": "Red Social para Teclers - Ticket 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Jorge Aldair Santiago Rufino",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.7",
+    "sequelize": "^6.6.2",
+    "tedious": "^11.0.9"
+  }
+}

@@ -1,4 +1,4 @@
-const {DataTypes, Model} = require('sequelize')
+const {DataTypes, Model, Sequelize} = require('sequelize')
 const sequelize = require('./conexion')
 
 //Definir mi Modelo con que voy a trabajar
@@ -29,7 +29,7 @@ const Usuarios = sequelize.define('usuarios', {
       allowNull: false
     },
     nacimiento: {
-        type: DataTypes.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
     pais: {

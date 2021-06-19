@@ -2,18 +2,14 @@ const {DataTypes, Model} = require('sequelize')
 const sequelize = require('./conexion')
 
 //Definir mi Modelo con que voy a trabajar
-const Idiomas = sequelize.define('idiomas', {
+const Hobbies = sequelize.define('hobbies', {
     id : {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    idioma : {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-    },
-    nivel : {
-        type: DataTypes.STRING(20),
+    hobbie : {
+        type: DataTypes.STRING(35),
         allowNull: false,
     },
     tecler_id: {
@@ -28,4 +24,4 @@ const Idiomas = sequelize.define('idiomas', {
     timestamps: false
 })
 
-module.exports = Idiomas;
+module.exports = Hobbies;

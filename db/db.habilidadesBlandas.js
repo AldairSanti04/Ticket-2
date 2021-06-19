@@ -2,18 +2,18 @@ const {DataTypes, Model} = require('sequelize')
 const sequelize = require('./conexion')
 
 //Definir mi Modelo con que voy a trabajar
-const Idiomas = sequelize.define('idiomas', {
+const Habilidades = sequelize.define('habilidades_blandas', {
     id : {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    idioma : {
-        type: DataTypes.STRING(20),
+    habilidad : {
+        type: DataTypes.STRING(50),
         allowNull: false,
     },
-    nivel : {
-        type: DataTypes.STRING(20),
+    validado : {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     tecler_id: {
@@ -28,4 +28,4 @@ const Idiomas = sequelize.define('idiomas', {
     timestamps: false
 })
 
-module.exports = Idiomas;
+module.exports = Habilidades;

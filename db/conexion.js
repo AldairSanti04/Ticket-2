@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('pruebas', null, null, {
+const sequelize = new Sequelize('ticket_02', null, null, {
     dialect: 'mssql',
     server: process.env.DB_HOST,
     port: process.env.DB_PORT,

@@ -3,8 +3,20 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors');
 const sequelize = require('./db/conexion');
-const multer = require('multer');
+// Modelos DB
 const Usuarios = require('./db/db.usuarios');
+const Conocimientos = require('./db/db.conocimientos');
+const Habilidades = require('./db/db.habilidadesBlandas');
+const Desempenio = require('./db/db.desempenios');
+const Idiomas = require('./db/db.idiomas');
+const Estudios = require('./db/db.estudios');
+const Feedback = require('./db/db.feedback');
+const Entornos = require('./db/db.entornosProfesionales');
+const Hobbies = require('./db/db.hobbies');
+const Redes = require('./db/db.redesSociales');
+const Tecnologias = require('./db/db.tecnologias');
+const Amigos = require('./db/db.amigos');
+// Vistas
 const vistasUsuarios = require('./app/views/usuarios.view');
 
 app.use(express.json());
@@ -24,17 +36,29 @@ app.use((err, req, res, next)=> {
 async function inicioServidor() {
     try {
         await Usuarios.sync({alter:true});
-        // await Usuarios.findOrCreate({
-        //     where: {
-        //         nombres: 'Aldair', 
-        //         apellidos: 'Santiago', 
-        //         email: 'aldair@admin.com', 
-        //         pass: 'holitas123', 
-        //         nacimiento: '1998-04-27',
-        //         pais: 'México',
-        //         ciudad: 'Estado de México'
-        //     }
-        // })
+        await Conocimientos.sync({alter:true});
+        await Amigos.sync({alter:true});
+        await Habilidades.sync({alter:true});
+        await Hobbies.sync({alter:true});
+        await Entornos.sync({alter:true});
+        await Estudios.sync({alter:true});
+        await Tecnologias.sync({alter:true});
+        await Redes.sync({alter:true});
+        await Feedback.sync({alter:true});
+        await Idiomas.sync({alter:true});
+        await Desempenio.sync({alter:true});
+
+        await Usuarios.findOrCreate({
+            where: {
+                nombres: 'Aldair', 
+                apellidos: 'Santiago', 
+                email: 'aldair@admin.com', 
+                pass: 'holitas123', 
+                nacimiento: '1998-04-27',
+                pais: 'México',
+                ciudad: 'Estado de México'
+            }
+        })
         await sequelize.authenticate();
         console.log('Conexion con la DB correcta!');
         app.listen(process.env.PORT, function (){

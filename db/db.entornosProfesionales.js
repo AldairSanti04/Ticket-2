@@ -28,4 +28,4 @@ const Entornos = sequelize.define('entornos_profesionales', {
     timestamps: false
 })
 
-module.exports = Idiomas;
+module.exports = Entornos;

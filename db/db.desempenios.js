@@ -2,7 +2,7 @@ const {DataTypes, Model} = require('sequelize')
 const sequelize = require('./conexion')
 
 //Definir mi Modelo con que voy a trabajar
-const Desempeño = sequelize.define('desempeño', {
+const Desempenio = sequelize.define('desempenio', {
     id : {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -28,4 +28,4 @@ const Desempeño = sequelize.define('desempeño', {
     timestamps: false
 })
 
-module.exports = Desempeño;
+module.exports = Desempenio;

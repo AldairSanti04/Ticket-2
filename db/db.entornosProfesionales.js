@@ -1,4 +1,4 @@
-const {DataTypes, Model} = require('sequelize')
+const {DataTypes, Model, Sequelize} = require('sequelize')
 const sequelize = require('./conexion')
 
 //Definir mi Modelo con que voy a trabajar
@@ -14,7 +14,7 @@ const Entornos = sequelize.define('entornos_profesionales', {
     },
     validado : {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        defaultValue: 0,
     },
     tecler_id: {
         type: DataTypes.INTEGER,

@@ -59,9 +59,10 @@ module.exports.buscarUsuario = async (data)=>{
     }
 }
 
-module.exports.updateUsuario = async (id, user) => {
-    const { nombres, apellidos, email, pass, fecha, pais, ciudad, foto } = user;
-    let usuarioActualizar = new ModelUsers(nombres, apellidos, email, pass, fecha, pais, ciudad, ''); 
+module.exports.updateUsuario = async (id, imagen, user) => {
+    const { nombres, apellidos, email, pass, fecha, pais, ciudad} = user;
+    const foto = imagen;
+    let usuarioActualizar = new ModelUsers(nombres, apellidos, email, pass, fecha, pais, ciudad, foto); 
     try {
         let resultado =  await usuarioActualizar.actualizarUsuario(id);
         let result = resultado.dataValues;
@@ -79,3 +80,81 @@ module.exports.eliminarUsuario = async (id) => {
         throw new Error ('No se pudo eliminar el usuario seleccionado')
     }
 };
+
+module.exports.agregarHabilidad = async (id, habilidad) => {
+    try {
+        let result = await ModelUsers.agregarHabilidadBlanda(id, habilidad);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar la habilidad');
+    }
+}
+
+module.exports.validarHabilidad = async (id, habilidad) => {
+    try {
+        let result = await ModelUsers.validarHabilidadBlanda(id, habilidad);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo validar la habilidad');
+    }
+}
+
+module.exports.agregarConocimiento = async (id, conocimiento) => {
+    try {
+        let result = await ModelUsers.agregarConocimientos(id, conocimiento);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar el conocimiento');
+    }
+}
+
+module.exports.validarConocimiento = async (id, conocimiento) => {
+    try {
+        let result = await ModelUsers.validarConocimientos(id, conocimiento);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo validar el conocimiento');
+    }
+}
+
+module.exports.agregarDesempenio = async (id, desempenio) => {
+    try {
+        let result = await ModelUsers.agregarActividades(id, desempenio);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar el desempeño');
+    }
+}
+
+module.exports.validarDesempenio = async (id, desempenio) => {
+    try {
+        let result = await ModelUsers.validarActividades(id, desempenio);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo validar el desempeño');
+    }
+}

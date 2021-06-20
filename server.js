@@ -35,18 +35,31 @@ app.use((err, req, res, next)=> {
 //Iniciar el Servidor
 async function inicioServidor() {
     try {
-        await Usuarios.sync({alter:true});
-        await Conocimientos.sync({alter:true});
-        await Amigos.sync({alter:true});
-        await Habilidades.sync({alter:true});
-        await Hobbies.sync({alter:true});
-        await Entornos.sync({alter:true});
-        await Estudios.sync({alter:true});
-        await Tecnologias.sync({alter:true});
-        await Redes.sync({alter:true});
-        await Feedback.sync({alter:true});
-        await Idiomas.sync({alter:true});
-        await Desempenio.sync({alter:true});
+        // await Usuarios.sync({alter:true});
+        // await Conocimientos.sync({force:true});
+        // await Amigos.sync({alter:true});
+        // await Habilidades.sync({force:true});
+        // await Hobbies.sync({alter:true});
+        // await Entornos.sync({force:true});
+        // await Estudios.sync({alter:true});
+        // await Tecnologias.sync({force:true});
+        // await Redes.sync({alter:true});
+        // await Feedback.sync({alter:true});
+        // await Idiomas.sync({alter:true});
+        // await Desempenio.sync({force:true});
+
+        await Usuarios.sync();
+        await Conocimientos.sync();
+        await Amigos.sync();
+        await Habilidades.sync();
+        await Hobbies.sync();
+        await Entornos.sync();
+        await Estudios.sync();
+        await Tecnologias.sync();
+        await Redes.sync();
+        await Feedback.sync();
+        await Idiomas.sync();
+        await Desempenio.sync();
 
         await Usuarios.findOrCreate({
             where: {

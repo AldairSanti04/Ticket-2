@@ -230,11 +230,11 @@ module.exports = async (app)=> {
     })
 
     // Ruta para Idiomas
-    app.post('/tecnologias/:id', async (req, res) => {
+    app.post('/idiomas/:id', async (req, res) => {
         let id = req.params.id;
-        let tecnologia = req.body;
+        let idiomas = req.body;
         try {
-            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            let resultado = await controladorUsuarios.agregarIdiomas(id, idiomas)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -243,12 +243,12 @@ module.exports = async (app)=> {
         }
     })
 
-    // Ruta para Redes
-    app.post('/tecnologias/:id', async (req, res) => {
+    // Ruta para Redes Sociales
+    app.post('/redes/:id', async (req, res) => {
         let id = req.params.id;
-        let tecnologia = req.body;
+        let redes = req.body;
         try {
-            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            let resultado = await controladorUsuarios.agregarRedes(id, redes)
             if(resultado){
                 res.status(200).json('ok');
             }      

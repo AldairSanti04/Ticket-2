@@ -6,6 +6,8 @@ const Entornos = require('../../db/db.entornosProfesionales');
 const Tecnologias = require('../../db/db.tecnologias');
 const Desempenio = require('../../db/db.desempenios');
 const Estudios = require('../../db/db.estudios');
+const Idiomas = require('../../db/db.idiomas');
+const Redes = require('../../db/db.redesSociales');
 
 module.exports = class ModelUsers {
   constructor(nombres, apellidos, email, pass, nacimiento, pais, ciudad, foto) {        
@@ -285,4 +287,39 @@ module.exports = class ModelUsers {
     }
   }
 
+  static agregarLenguaje = async (id, array) => {
+    try {
+      Idiomas.destroy({where: { tecler_id: id }});
+      array.idiomas.forEach( async element => {
+        await Idiomas.findOrCreate({
+          where: {
+              idioma: element.idioma, 
+              nivel: element.nivel,
+              tecler_id: id
+          }
+        })
+      });
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar la escuela')
+    }
+  }
+
+  static agregarSociales = async (id, array) => {
+    try {
+      Redes.destroy({where: { tecler_id: id }});
+      array.redes.forEach( async element => {
+        await Redes.findOrCreate({
+          where: {
+              red_social: element.red, 
+              enlace: element.enlace,
+              tecler_id: id
+          }
+        })
+      });
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar la red Social')
+    }
+  }
 }

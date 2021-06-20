@@ -223,3 +223,29 @@ module.exports.agregarEstudios = async (id, estudios) => {
         throw new Error ('No se pudo agregar la tecnologia');
     }
 }
+
+module.exports.agregarIdiomas = async (id, idiomas) => {
+    try {
+        let result = await ModelUsers.agregarLenguaje(id, idiomas);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar el idioma');
+    }
+}
+
+module.exports.agregarRedes = async (id, redes) => {
+    try {
+        let result = await ModelUsers.agregarSociales(id, redes);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar la red social');
+    }
+}

@@ -257,12 +257,12 @@ module.exports = async (app)=> {
         }
     })
 
-    // Ruta para Feedback
-    app.post('/tecnologias/:id', async (req, res) => {
+    // Ruta para Hobbies
+    app.post('/hobbies/:id', async (req, res) => {
         let id = req.params.id;
-        let tecnologia = req.body;
+        let hobbies = req.body;
         try {
-            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            let resultado = await controladorUsuarios.agregarHobbies(id, hobbies)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -271,12 +271,12 @@ module.exports = async (app)=> {
         }
     })
 
-    // Ruta para Hobbies
-    app.post('/tecnologias/:id', async (req, res) => {
-        let id = req.params.id;
-        let tecnologia = req.body;
+    // Rutas para Feedback
+    app.post('/feedback/:id', async (req, res) => {
+        let id_tecler = req.params.id;
+        let comentario = req.body;
         try {
-            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            let resultado = await controladorUsuarios.agregarFeedback(id_tecler, comentario)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -286,4 +286,16 @@ module.exports = async (app)=> {
     })
 
     // Rutas para Amigos
+    app.post('/solicitud/:id', async (req, res) => {
+        let id_tecler = req.params.id;
+        let amigo = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarAmigo(id_tecler, amigo)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
 }

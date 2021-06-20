@@ -249,3 +249,42 @@ module.exports.agregarRedes = async (id, redes) => {
         throw new Error ('No se pudo agregar la red social');
     }
 }
+
+module.exports.agregarHobbies = async (id, hobbie) => {
+    try {
+        let result = await ModelUsers.agregarPasatiempos(id, hobbie);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar la red social');
+    }
+}
+
+module.exports.agregarFeedback = async (id_tecler, comentario) => {
+    try {
+        let result = await ModelUsers.agregarComentario(id_tecler, comentario);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar el feedback');
+    }
+}
+
+module.exports.agregarAmigo = async (id_tecler, amigo) => {
+    try {
+        let result = await ModelUsers.solicitarAmistad(id_tecler, amigo);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo hacer la solicitud');
+    }
+}

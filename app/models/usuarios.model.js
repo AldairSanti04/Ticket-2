@@ -8,6 +8,9 @@ const Desempenio = require('../../db/db.desempenios');
 const Estudios = require('../../db/db.estudios');
 const Idiomas = require('../../db/db.idiomas');
 const Redes = require('../../db/db.redesSociales');
+const Hobbies = require('../../db/db.hobbies');
+const Feedback = require('../../db/db.feedback');
+const Amigos = require('../../db/db.amigos');
 
 module.exports = class ModelUsers {
   constructor(nombres, apellidos, email, pass, nacimiento, pais, ciudad, foto) {        
@@ -320,6 +323,52 @@ module.exports = class ModelUsers {
     return true
     } catch (error) {
       throw new Error ('No se pudo agregar la red Social')
+    }
+  }
+
+  static agregarPasatiempos = async (id, array) => {
+    try {
+      Hobbies.destroy({where: { tecler_id: id }});
+      array.hobbies.forEach( async element => {
+        await Hobbies.findOrCreate({
+          where: {
+              hobbie: element.hobbie, 
+              tecler_id: id
+          }
+        })
+      });
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar el Hobbie')
+    }
+  }
+
+  static agregarComentario = async (id_tecler, feed) => {
+    try {
+        await Feedback.create({
+            tecler_amigo_id: feed.id,
+            comentario: feed.comentario, 
+            tecler_id: id_tecler
+        })
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar el comentario')
+    }
+  }
+
+  static solicitarAmistad = async (id_tecler, amigo) => {
+    try {
+      Amigos.destroy({ where: { tecler_amigo_id: amigo.id}})
+        await Amigos.findOrCreate({
+          where: {
+              tecler_amigo_id: amigo.id,
+              aceptado: false, 
+              tecler_id: id_tecler
+          }
+        })
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar la solicitud')
     }
   }
 }

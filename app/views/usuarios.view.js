@@ -158,4 +158,60 @@ module.exports = async (app)=> {
             res.status(400).json({error: "Ocurrio un error no se pudo validar"})
         }
     })
+
+    // Agregar Entornos Profesionales
+    app.post('/entornos/:id', async (req, res) => {
+        let id = req.params.id;
+        let entornos = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarEntornos(id, entornos)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Amigo Valida Entorno Profesional
+    app.post('/validar/entorno/:id', async (req, res) => {
+        let id = req.params.id;
+        let entorno = req.body;
+        try {
+            let resultado = await controladorUsuarios.validarEntorno(id, entorno)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo validar"})
+        }
+    })
+
+        // Agregar Tecnologias
+    app.post('/tecnologias/:id', async (req, res) => {
+        let id = req.params.id;
+        let tecnologia = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Amigo Valida Entorno Profesional
+    app.post('/validar/tecnologia/:id', async (req, res) => {
+        let id = req.params.id;
+        let tecnologia = req.body;
+        try {
+            let resultado = await controladorUsuarios.validarTecnologia(id, tecnologia)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo validar"})
+        }
+    })
 }

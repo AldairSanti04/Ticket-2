@@ -2,6 +2,8 @@ const Usuarios = require('../../db/db.usuarios');
 const Habilidades = require('../../db/db.habilidadesBlandas');
 const Conocimientos = require('../../db/db.conocimientos');
 const Desempenios = require('../../db/db.desempenios');
+const Entornos = require('../../db/db.entornosProfesionales');
+const Tecnologias = require('../../db/db.tecnologias');
 
 module.exports = class ModelUsers {
   constructor(nombres, apellidos, email, pass, nacimiento, pais, ciudad, foto) {        
@@ -161,7 +163,7 @@ module.exports = class ModelUsers {
         return true
       }
     } catch (error) {
-      throw new Error ('No se pudo validar el conocimiento, no existe')
+      throw new Error ('No se pudo validar el conocimiento, algo salio mal')
     }
   }
 
@@ -185,14 +187,76 @@ module.exports = class ModelUsers {
     try {
       let existe = await Desempenios.findOne({ where: { actividad: actividad.actividad, tecler_id: id } })
       if(!existe){
-        throw new Error ('No se pudo validar el conocimiento, no existe')
+        throw new Error ('No se pudo validar el desempeño en la actividad, no existe')
       } else {
         existe.validado++;
         existe.save();
         return true
       }
     } catch (error) {
-      throw new Error ('No se pudo validar el desempeño en la actividad, no existe')
+      throw new Error ('No se pudo validar el desempeño en la actividad, algo salio mal')
+    }
+  }
+
+  static agregarEntornosP = async (id, array) => {
+    try {
+      array.entornos.forEach( async element => {
+        await Entornos.findOrCreate({
+          where: {
+              entorno: element.entorno, 
+              tecler_id: id
+          }
+        })
+      });
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar el entorno profesional')
+    }
+  }
+
+  static validarEntornoP = async (id, entorno) => {
+    try {
+      let existe = await Entornos.findOne({ where: { entorno: entorno.entorno, tecler_id: id } })
+      if(!existe){
+        throw new Error ('No se pudo validar el entorno profesional, no existe')
+      } else {
+        existe.validado++;
+        existe.save();
+        return true
+      }
+    } catch (error) {
+      throw new Error ('No se pudo validar el entorno profesional, algo salio mal')
+    }
+  }
+
+  static agregarTecno = async (id, array) => {
+    try {
+      array.tecnologias.forEach( async element => {
+        await Tecnologias.findOrCreate({
+          where: {
+              tecnologia: element.tecnologia, 
+              tecler_id: id
+          }
+        })
+      });
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar la tecnologia')
+    }
+  }
+
+  static validarTecno = async (id, tecnologia) => {
+    try {
+      let existe = await Tecnologias.findOne({ where: { tecnologia: tecnologia.tecnologia, tecler_id: id } })
+      if(!existe){
+        throw new Error ('No se pudo validar la tecnologia, no existe')
+      } else {
+        existe.validado++;
+        existe.save();
+        return true
+      }
+    } catch (error) {
+      throw new Error ('No se pudo validar la tecnologia, algo salio mal')
     }
   }
 }

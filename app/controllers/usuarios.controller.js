@@ -158,3 +158,55 @@ module.exports.validarDesempenio = async (id, desempenio) => {
         throw new Error ('No se pudo validar el desempeño');
     }
 }
+
+module.exports.agregarEntornos = async (id, entorno) => {
+    try {
+        let result = await ModelUsers.agregarEntornosP(id, entorno);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar el desempeño');
+    }
+}
+
+module.exports.validarEntorno = async (id, entorno) => {
+    try {
+        let result = await ModelUsers.validarEntornoP(id, entorno);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo validar el desempeño');
+    }
+}
+
+module.exports.agregarTecnologias = async (id, tecnologia) => {
+    try {
+        let result = await ModelUsers.agregarTecno(id, tecnologia);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar el desempeño');
+    }
+}
+
+module.exports.validarTecnologia = async (id, tecnologia) => {
+    try {
+        let result = await ModelUsers.validarTecno(id, tecnologia);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo validar el desempeño');
+    }
+}

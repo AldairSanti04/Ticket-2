@@ -201,7 +201,7 @@ module.exports = async (app)=> {
         }
     })
 
-    // Amigo Valida Entorno Profesional
+        // Amigo Valida Tecnologias
     app.post('/validar/tecnologia/:id', async (req, res) => {
         let id = req.params.id;
         let tecnologia = req.body;
@@ -214,4 +214,76 @@ module.exports = async (app)=> {
             res.status(400).json({error: "Ocurrio un error no se pudo validar"})
         }
     })
+
+    // Ruta para Estudios
+    app.post('/estudios/:id', async (req, res) => {
+        let id = req.params.id;
+        let estudios = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarEstudios(id, estudios)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Ruta para Idiomas
+    app.post('/tecnologias/:id', async (req, res) => {
+        let id = req.params.id;
+        let tecnologia = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Ruta para Redes
+    app.post('/tecnologias/:id', async (req, res) => {
+        let id = req.params.id;
+        let tecnologia = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Ruta para Feedback
+    app.post('/tecnologias/:id', async (req, res) => {
+        let id = req.params.id;
+        let tecnologia = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Ruta para Hobbies
+    app.post('/tecnologias/:id', async (req, res) => {
+        let id = req.params.id;
+        let tecnologia = req.body;
+        try {
+            let resultado = await controladorUsuarios.agregarTecnologias(id, tecnologia)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    // Rutas para Amigos
 }

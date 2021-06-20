@@ -4,6 +4,8 @@ const Conocimientos = require('../../db/db.conocimientos');
 const Desempenios = require('../../db/db.desempenios');
 const Entornos = require('../../db/db.entornosProfesionales');
 const Tecnologias = require('../../db/db.tecnologias');
+const Desempenio = require('../../db/db.desempenios');
+const Estudios = require('../../db/db.estudios');
 
 module.exports = class ModelUsers {
   constructor(nombres, apellidos, email, pass, nacimiento, pais, ciudad, foto) {        
@@ -107,6 +109,7 @@ module.exports = class ModelUsers {
 
   static agregarHabilidadBlanda = async (id, array) => {
     try {
+      Habilidades.destroy({where: { tecler_id: id }});
       array.habilidades.forEach( async element => {
         await Habilidades.findOrCreate({
           where: {
@@ -138,6 +141,7 @@ module.exports = class ModelUsers {
 
   static agregarConocimientos = async (id, array) => {
     try {
+      Conocimientos.destroy({where: { tecler_id: id }});
       array.conocimientos.forEach( async element => {
         await Conocimientos.findOrCreate({
           where: {
@@ -169,6 +173,7 @@ module.exports = class ModelUsers {
 
   static agregarActividades = async (id, array) => {
     try {
+      Desempenio.destroy({where: { tecler_id: id }});
       array.actividades.forEach( async element => {
         await Desempenios.findOrCreate({
           where: {
@@ -200,6 +205,7 @@ module.exports = class ModelUsers {
 
   static agregarEntornosP = async (id, array) => {
     try {
+      Entornos.destroy({where: { tecler_id: id }});
       array.entornos.forEach( async element => {
         await Entornos.findOrCreate({
           where: {
@@ -231,6 +237,7 @@ module.exports = class ModelUsers {
 
   static agregarTecno = async (id, array) => {
     try {
+      Tecnologias.destroy({where: { tecler_id: id }});
       array.tecnologias.forEach( async element => {
         await Tecnologias.findOrCreate({
           where: {
@@ -259,4 +266,23 @@ module.exports = class ModelUsers {
       throw new Error ('No se pudo validar la tecnologia, algo salio mal')
     }
   }
+
+  static agregarEscuela = async (id, array) => {
+    try {
+      Estudios.destroy({where: { tecler_id: id }});
+      array.estudios.forEach( async element => {
+        await Estudios.findOrCreate({
+          where: {
+              escuela: element.escuela, 
+              especialidad: element.especialidad,
+              tecler_id: id
+          }
+        })
+      });
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar la escuela')
+    }
+  }
+
 }

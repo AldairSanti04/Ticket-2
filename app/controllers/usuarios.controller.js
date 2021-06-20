@@ -194,7 +194,7 @@ module.exports.agregarTecnologias = async (id, tecnologia) => {
             return false
         }
     } catch (error) {
-        throw new Error ('No se pudo agregar el desempeño');
+        throw new Error ('No se pudo agregar la tecnologia');
     }
 }
 
@@ -207,6 +207,19 @@ module.exports.validarTecnologia = async (id, tecnologia) => {
             return false
         }
     } catch (error) {
-        throw new Error ('No se pudo validar el desempeño');
+        throw new Error ('No se pudo validar la tecnologia');
+    }
+}
+
+module.exports.agregarEstudios = async (id, estudios) => {
+    try {
+        let result = await ModelUsers.agregarEscuela(id, estudios);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo agregar la tecnologia');
     }
 }

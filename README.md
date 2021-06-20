@@ -18,8 +18,8 @@ DB_PASS =
 SECRET_KEY =
 ```
 
-- Crear una Base de Datos en SQL Server con el nombre:
-    - `ticket_02`
+- Crear una Base de Datos en SQL Server:
+    - `CREATE DATABASE ticket_02`
 
 - Iniciar Servidor Local
     - `npm run dev`

@@ -52,8 +52,27 @@ module.exports.registroNuevoUsuario = async (user) => {
 module.exports.buscarUsuario = async (data)=>{
     try {
         let resultado = await ModelUsers.infoUsuario(data);
-        let result = resultado.dataValues;
-        return result;
+        if(resultado != false) {
+            result = resultado.dataValues
+            return result;
+        } else {
+            throw new Error ('No existe el Usuario')
+        }
+    }catch (err) {
+        throw new Error ('Ocurrio un problema en el controlador al BUSCAR usuario')
+    }
+}
+
+//Seleccionar todos los usuarios
+module.exports.buscarUsuarios = async ()=>{
+    try {
+        let resultado = await ModelUsers.listarUsuarios();
+        if(resultado != false) {
+            result = resultado
+            return result;
+        } else {
+            throw new Error ('No existe el Usuario')
+        }
     }catch (err) {
         throw new Error ('Ocurrio un problema en el controlador al BUSCAR usuario')
     }

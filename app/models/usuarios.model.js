@@ -90,10 +90,60 @@ module.exports = class ModelUsers {
     }        
   }
 
+  static listarUsuarios = async () => {
+    try{
+      let resultado = await Usuarios.findAll({
+        attributes: ['id', 'nombres', 'apellidos', 'foto']
+      })
+      return resultado
+    } catch(error) {
+
+    }
+  }
+
   static infoUsuario = async (id) => {
     try{
       let resultado = await Usuarios.findOne({
-        where: { id : id }
+        where: { id : id },
+        attributes: ['id', 'nombres', 'apellidos', 'email', 'pass', 'nacimiento', 'pais', 'ciudad', 'foto'],
+        include: [                                                        
+          {
+            model: Hobbies,
+            attributes: ['hobbie'],                        
+          },
+          {
+            model: Redes,
+            attributes: ['red_social', 'enlace'],                        
+          },
+          {
+            model: Idiomas,
+            attributes: ['idioma', 'nivel'],                        
+          },
+          {
+            model: Estudios,
+            attributes: ['escuela', 'especialidad'],                        
+          },
+          {
+            model: Habilidades,
+            attributes: ['habilidad', 'validado'],                        
+          },
+          {
+            model: Desempenio,
+            attributes: ['actividad', 'validado'],                        
+          },
+          {
+            model: Entornos,
+            attributes: ['entorno', 'validado'],                        
+          },
+          {
+            model: Tecnologias,
+            attributes: ['tecnologia', 'validado'],                        
+          },
+          {
+            model: Conocimientos,
+            attributes: ['conocimiento', 'validado'],                        
+          }
+        ]
       })
       return resultado
     }catch (err) {

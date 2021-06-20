@@ -37,13 +37,33 @@ module.exports = async (app)=> {
         }
     })
 
+    // Recuperar info de todos los usuarios
+    app.get('/usuarios', async (req, res) => {
+        try{
+            let resultado = await controladorUsuarios.buscarUsuarios();
+            resultado.forEach(element => {
+                if(element.foto != null){
+                    element.foto = element.foto.toString('base64');
+                }
+            });
+            res.status(200).json({user:resultado});
+        }catch (err){
+            res.status(400).json('No se puede mostrar usuario')
+        }
+    })
+
     // Recuperar la información de un Usuario por ID
     app.get('/usuario/:id', async (req, res) => {
         let data = req.params.id;
         try{
             let resultado = await controladorUsuarios.buscarUsuario(data);
-            let imagencita = resultado.foto.toString('base64')
-            res.json({result:resultado, foto:imagencita});
+            if(resultado.foto != null){
+                let imagencita = resultado.foto.toString('base64')
+                res.status(200).json({user:resultado, foto:imagencita});
+            } else {
+                res.status(200).json({user:resultado});
+            }
+
         }catch (err){
             res.status(400).json('No se puede mostrar usuario')
         }

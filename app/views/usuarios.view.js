@@ -2,11 +2,12 @@ const controladorUsuarios = require('../controllers/usuarios.controller');
 const fs = require("fs");
 const middImages = require('../../middleware/middImages');
 const middAuth = require('../../middleware/middAuth');
+const middCheck = require('../../middleware/middDatos');
 
 module.exports = async (app)=> {
 
     //Ruta para Login
-    app.post('/login', async (req,res)=>{
+    app.post('/login', middCheck.validarLogin, async (req,res)=>{
         let usuario = req.body
         try {
             let resultado = await controladorUsuarios.chequearUsuario(usuario)
@@ -22,7 +23,7 @@ module.exports = async (app)=> {
     })
 
     //Registro de Nuevo Usuario
-    app.post('/signup', async (req,res)=>{
+    app.post('/signup', middCheck.validarRegistro, async (req,res)=>{
         let usuario = req.body
         try {
             let resultado = await controladorUsuarios.registroNuevoUsuario(usuario)
@@ -70,7 +71,7 @@ module.exports = async (app)=> {
     })
 
     // Modificar datos de un Usuario por ID
-    app.post('/usuario/:id', middImages, async (req, res) => {
+    app.post('/usuario/:id', middImages, middCheck.validarActualizacion, async (req, res) => {
         let id = req.params.id;
         let imagen;
         let hayFoto = req.file
@@ -80,6 +81,7 @@ module.exports = async (app)=> {
             imagen = fs.readFileSync("uploads/" + req.file.filename);
         }
         let user = req.body;
+        console.log(user);
         try {
             let resultado = await controladorUsuarios.updateUsuario(id, imagen, user);
                 res.json({ user: resultado })
@@ -102,7 +104,7 @@ module.exports = async (app)=> {
     })
 
     // Agregar Nueva Habilidad Blanda
-    app.post('/habilidadBlanda/:id', async (req, res) => {
+    app.post('/habilidadBlanda/:id', middAuth.authorizationUser, middCheck.validarHabilidades, async (req, res) => {
         let id = req.params.id;
         let habilidad = req.body;
         try {
@@ -116,7 +118,7 @@ module.exports = async (app)=> {
     })
 
     // Amigo Valida habilidad blanda
-    app.post('/validar/habilidadBlanda/:id', async (req, res) => {
+    app.post('/validar/habilidadBlanda/:id', middAuth.authorizationUser, async (req, res) => {
         let id = req.params.id;
         try {
             let resultado = await controladorUsuarios.validarHabilidad(id)
@@ -129,7 +131,7 @@ module.exports = async (app)=> {
     })
 
     // Agregar Nuevo Conocimientos
-    app.post('/conocimientos/:id', async (req, res) => {
+    app.post('/conocimientos/:id', middAuth.authorizationUser, middCheck.validarConocimientos, async (req, res) => {
         let id = req.params.id;
         let conocimiento = req.body;
         try {
@@ -143,7 +145,7 @@ module.exports = async (app)=> {
     })
 
     // Amigo Valida Conocimientos
-    app.post('/validar/conocimientos/:id', async (req, res) => {
+    app.post('/validar/conocimientos/:id', middAuth.authorizationUser, async (req, res) => {
         let id = req.params.id;
         try {
             let resultado = await controladorUsuarios.validarConocimiento(id)
@@ -156,7 +158,7 @@ module.exports = async (app)=> {
     })
 
         // Agregar Desempeños
-    app.post('/desempenio/:id', async (req, res) => {
+    app.post('/desempenio/:id', middAuth.authorizationUser, middCheck.validarDesempenios, async (req, res) => {
         let id = req.params.id;
         let desempenio = req.body;
         try {
@@ -170,7 +172,7 @@ module.exports = async (app)=> {
     })
 
     // Amigo Valida desempenio
-    app.post('/validar/desempenio/:id', async (req, res) => {
+    app.post('/validar/desempenio/:id', middAuth.authorizationUser, async (req, res) => {
         let id = req.params.id;
         try {
             let resultado = await controladorUsuarios.validarDesempenio(id)
@@ -183,7 +185,7 @@ module.exports = async (app)=> {
     })
 
     // Agregar Entornos Profesionales
-    app.post('/entornos/:id', async (req, res) => {
+    app.post('/entornos/:id', middAuth.authorizationUser, middCheck.validarEntorno, async (req, res) => {
         let id = req.params.id;
         let entornos = req.body;
         try {
@@ -197,7 +199,7 @@ module.exports = async (app)=> {
     })
 
     // Amigo Valida Entorno Profesional
-    app.post('/validar/entorno/:id', async (req, res) => {
+    app.post('/validar/entorno/:id', middAuth.authorizationUser, async (req, res) => {
         let id = req.params.id;
         try {
             let resultado = await controladorUsuarios.validarEntorno(id)
@@ -210,7 +212,7 @@ module.exports = async (app)=> {
     })
 
         // Agregar Tecnologias
-    app.post('/tecnologias/:id', async (req, res) => {
+    app.post('/tecnologias/:id', middAuth.authorizationUser, middCheck.validarTecnologias, async (req, res) => {
         let id = req.params.id;
         let tecnologia = req.body;
         try {
@@ -224,7 +226,7 @@ module.exports = async (app)=> {
     })
 
         // Amigo Valida Tecnologias
-    app.post('/validar/tecnologia/:id', async (req, res) => {
+    app.post('/validar/tecnologia/:id', middAuth.authorizationUser, async (req, res) => {
         let id = req.params.id;
         try {
             let resultado = await controladorUsuarios.validarTecnologia(id)
@@ -237,7 +239,7 @@ module.exports = async (app)=> {
     })
 
     // Ruta para Estudios
-    app.post('/estudios/:id', async (req, res) => {
+    app.post('/estudios/:id', middAuth.authorizationUser, middCheck.validarEstudios, async (req, res) => {
         let id = req.params.id;
         let estudios = req.body;
         try {
@@ -251,7 +253,7 @@ module.exports = async (app)=> {
     })
 
     // Ruta para Idiomas
-    app.post('/idiomas/:id', async (req, res) => {
+    app.post('/idiomas/:id', middAuth.authorizationUser, middCheck.validarIdiomas, async (req, res) => {
         let id = req.params.id;
         let idiomas = req.body;
         try {
@@ -265,7 +267,7 @@ module.exports = async (app)=> {
     })
 
     // Ruta para Redes Sociales
-    app.post('/redes/:id', async (req, res) => {
+    app.post('/redes/:id', middAuth.authorizationUser, middCheck.validarRedesSociales, async (req, res) => {
         let id = req.params.id;
         let redes = req.body;
         try {
@@ -279,7 +281,7 @@ module.exports = async (app)=> {
     })
 
     // Ruta para Hobbies
-    app.post('/hobbies/:id', async (req, res) => {
+    app.post('/hobbies/:id', middAuth.authorizationUser, middCheck.validarHobbies, async (req, res) => {
         let id = req.params.id;
         let hobbies = req.body;
         try {
@@ -293,7 +295,7 @@ module.exports = async (app)=> {
     })
 
     // Rutas para Feedback
-    app.post('/feedback/:id', async (req, res) => {
+    app.post('/feedback/:id', middAuth.authorizationUser, async (req, res) => {
         let id_tecler = req.params.id;
         let comentario = req.body;
         try {
@@ -306,7 +308,7 @@ module.exports = async (app)=> {
         }
     })
 
-    app.get('/feedback/:id', async (req, res) => {
+    app.get('/feedback/:id', middAuth.authorizationUser, async (req, res) => {
         let id_tecler = req.params.id;
         try {
             let resultado = await controladorUsuarios.verComentarios(id_tecler)
@@ -314,25 +316,50 @@ module.exports = async (app)=> {
                 res.status(200).json(resultado);
             }      
         }catch (error){
-            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+            res.status(400).json({error: "Ocurrio un error no se puede mostrar"})
         }
     })
 
     // Rutas para Amigos
-    app.post('/solicitud/:id', async (req, res) => {
+    app.post('/solicitud/:id', middAuth.authorizationUser, async (req, res) => {
         let id_tecler = req.params.id;
         let amigo = req.body;
         try {
-            let resultado = await controladorUsuarios.agregarAmigo(id_tecler, amigo)
+            let resultado = await controladorUsuarios.agregarAmigo(amigo, id_tecler)
             if(resultado){
                 res.status(200).json('ok');
             }      
         }catch (error){
-            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+            res.status(400).json({error: "Ocurrio un error no se puede mostrar"})
         }
     })
 
-    app.get('/amigos/:id', async (req, res) => {
+    app.post('/aceptar/:id', middAuth.authorizationUser, async (req, res) => {
+        let id_tecler = req.params.id;
+        let amigo = req.body;
+        try {
+            let resultado = await controladorUsuarios.aceptarAmigo(id_tecler, amigo)
+            if(resultado){
+                res.status(200).json('ok');
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se puede aceptar"})
+        }
+    })
+
+    app.get('/solicitudes/:id', middAuth.authorizationUser, async (req, res) => {
+        let id = req.params.id;
+        try {
+            let resultado = await controladorUsuarios.verSolicitudes(id)
+            if(resultado){
+                res.status(200).json(resultado);
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se puede mostrar"})
+        }
+    })
+
+    app.get('/amigos/:id', middAuth.authorizationUser, async (req, res) => {
         let id = req.params.id;
         try {
             let resultado = await controladorUsuarios.verAmigos(id)

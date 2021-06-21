@@ -302,9 +302,22 @@ module.exports.agregarFeedback = async (id_tecler, comentario) => {
     }
 }
 
-module.exports.agregarAmigo = async (id_tecler, amigo) => {
+module.exports.agregarAmigo = async (amigo, id_tecler) => {
     try {
-        let result = await ModelUsers.solicitarAmistad(id_tecler, amigo);
+        let result = await ModelUsers.solicitarAmistad(amigo, id_tecler);
+        if(result){
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo hacer la solicitud');
+    }
+}
+
+module.exports.aceptarAmigo = async (id_tecler, amigo) => {
+    try {
+        let result = await ModelUsers.aceptarSolicitud(id_tecler, amigo);
         if(result){
             return true
         } else {
@@ -318,6 +331,19 @@ module.exports.agregarAmigo = async (id_tecler, amigo) => {
 module.exports.verAmigos = async (id) => {
     try {
         let result = await ModelUsers.listarAmigos(id);
+        if(result){
+            return result
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo hacer la solicitud');
+    }
+}
+
+module.exports.verSolicitudes = async (id) => {
+    try {
+        let result = await ModelUsers.listarSolicitudes(id);
         if(result){
             return result
         } else {

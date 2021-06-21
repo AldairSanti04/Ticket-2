@@ -129,7 +129,7 @@ module.exports = class ModelUsers {
     try{
       let resultado = await Usuarios.findOne({
         where: { id : id },
-        attributes: ['id', 'nombres', 'apellidos', 'email', 'nacimiento', 'pais', 'ciudad', 'foto'],
+        attributes: ['id', 'nombres', 'apellidos', 'email', 'pass', 'nacimiento', 'pais', 'ciudad', 'foto'],
         include: [                                                        
           {
             model: Hobbies,
@@ -421,18 +421,34 @@ module.exports = class ModelUsers {
     }
   }
 
-  static solicitarAmistad = async (id_tecler, amigo) => {
+  static solicitarAmistad = async (amigo, id_tecler) => {
     try {
         await Amigos.findOrCreate({
           where: {
-              tecler_amigo_id: amigo.id,
-              aceptado: false, 
-              tecler_id: id_tecler
+              tecler_amigo_id: id_tecler,
+              tecler_id: amigo.id,
           }
         })
     return true
     } catch (error) {
       throw new Error ('No se pudo agregar la solicitud')
+    }
+  }
+
+  static aceptarSolicitud = async (id_tecler, amigo) => {
+    try {
+      let aceptado = await Amigos.findOne({where: {tecler_id: id_tecler, tecler_amigo_id: amigo.id}})
+      if(aceptado != null)
+      {
+        await Amigos.update({
+            aceptado: true,
+        }, 
+          {where: {tecler_id: id_tecler, tecler_amigo_id: amigo.id}})
+        return true;
+      }
+    return true
+    } catch (error) {
+      throw new Error ('No se pudo aceptar la solicitud')
     }
   }
 
@@ -451,7 +467,18 @@ module.exports = class ModelUsers {
         //   ]
         // })
       let data = [id]
-      let resultado = await sequelize.query(`SELECT dbo.usuarios.id, dbo.usuarios.nombres, dbo.usuarios.apellidos FROM dbo.amigos INNER JOIN dbo.usuarios ON tecler_amigo_id = usuarios.id WHERE aceptado = 'true' AND tecler_id = ? `,
+      let resultado = await sequelize.query(`SELECT dbo.usuarios.id, dbo.usuarios.nombres, dbo.usuarios.apellidos, dbo.amigos.aceptado FROM dbo.amigos INNER JOIN dbo.usuarios ON tecler_amigo_id = usuarios.id WHERE aceptado = 'true' AND tecler_id = ? `,
+      {replacements : data, type : sequelize.QueryTypes.SELECT})
+    return resultado
+    } catch (error) {
+      throw new Error ('No se pudo agregar la solicitud')
+    }
+  }
+  
+  static listarSolicitudes = async (id) => {
+    try {
+      let data = [id]
+      let resultado = await sequelize.query(`SELECT dbo.usuarios.id, dbo.usuarios.nombres, dbo.usuarios.apellidos, dbo.amigos.aceptado FROM dbo.amigos INNER JOIN dbo.usuarios ON tecler_amigo_id = usuarios.id WHERE aceptado = 'false' AND tecler_id = ? `,
       {replacements : data, type : sequelize.QueryTypes.SELECT})
     return resultado
     } catch (error) {

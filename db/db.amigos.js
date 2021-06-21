@@ -19,6 +19,7 @@ const Amigos = sequelize.define('amigos', {
     aceptado : {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
     },
     tecler_id: {
         type: DataTypes.INTEGER,

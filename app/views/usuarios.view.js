@@ -37,8 +37,8 @@ module.exports = async (app)=> {
         }
     })
 
-    // Recuperar info de todos los usuarios
-    app.get('/usuarios', async (req, res) => {
+    // Recuperar info de todos los usuarios amigos
+    app.get('/usuarios', middAuth.authorizationUser, async (req, res) => {
         try{
             let resultado = await controladorUsuarios.buscarUsuarios();
             resultado.forEach(element => {
@@ -53,7 +53,7 @@ module.exports = async (app)=> {
     })
 
     // Recuperar la información de un Usuario por ID
-    app.get('/usuario/:id', async (req, res) => {
+    app.get('/usuario/:id', middAuth.authorizationUser, async (req, res) => {
         let data = req.params.id;
         try{
             let resultado = await controladorUsuarios.buscarUsuario(data);
@@ -72,7 +72,13 @@ module.exports = async (app)=> {
     // Modificar datos de un Usuario por ID
     app.post('/usuario/:id', middImages, async (req, res) => {
         let id = req.params.id;
-        let imagen = fs.readFileSync("uploads/" + req.file.filename);
+        let imagen;
+        let hayFoto = req.file
+        if(hayFoto == undefined){
+            imagen = null
+        } else {
+            imagen = fs.readFileSync("uploads/" + req.file.filename);
+        }
         let user = req.body;
         try {
             let resultado = await controladorUsuarios.updateUsuario(id, imagen, user);
@@ -83,7 +89,7 @@ module.exports = async (app)=> {
     })
 
     // Eliminar un Usuario por ID
-    app.delete('/delete/:id', async (req,res)=>{
+    app.delete('/delete/:id', middAuth.authorizationUser, async (req,res)=>{
         let data = req.params.id;
         try {
             let resultado = await controladorUsuarios.eliminarUsuario(data)
@@ -112,9 +118,8 @@ module.exports = async (app)=> {
     // Amigo Valida habilidad blanda
     app.post('/validar/habilidadBlanda/:id', async (req, res) => {
         let id = req.params.id;
-        let habilidad = req.body;
         try {
-            let resultado = await controladorUsuarios.validarHabilidad(id, habilidad)
+            let resultado = await controladorUsuarios.validarHabilidad(id)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -140,9 +145,8 @@ module.exports = async (app)=> {
     // Amigo Valida Conocimientos
     app.post('/validar/conocimientos/:id', async (req, res) => {
         let id = req.params.id;
-        let conocimiento = req.body;
         try {
-            let resultado = await controladorUsuarios.validarConocimiento(id, conocimiento)
+            let resultado = await controladorUsuarios.validarConocimiento(id)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -168,9 +172,8 @@ module.exports = async (app)=> {
     // Amigo Valida desempenio
     app.post('/validar/desempenio/:id', async (req, res) => {
         let id = req.params.id;
-        let desempenio = req.body;
         try {
-            let resultado = await controladorUsuarios.validarDesempenio(id, desempenio)
+            let resultado = await controladorUsuarios.validarDesempenio(id)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -196,9 +199,8 @@ module.exports = async (app)=> {
     // Amigo Valida Entorno Profesional
     app.post('/validar/entorno/:id', async (req, res) => {
         let id = req.params.id;
-        let entorno = req.body;
         try {
-            let resultado = await controladorUsuarios.validarEntorno(id, entorno)
+            let resultado = await controladorUsuarios.validarEntorno(id)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -224,9 +226,8 @@ module.exports = async (app)=> {
         // Amigo Valida Tecnologias
     app.post('/validar/tecnologia/:id', async (req, res) => {
         let id = req.params.id;
-        let tecnologia = req.body;
         try {
-            let resultado = await controladorUsuarios.validarTecnologia(id, tecnologia)
+            let resultado = await controladorUsuarios.validarTecnologia(id)
             if(resultado){
                 res.status(200).json('ok');
             }      
@@ -305,6 +306,18 @@ module.exports = async (app)=> {
         }
     })
 
+    app.get('/feedback/:id', async (req, res) => {
+        let id_tecler = req.params.id;
+        try {
+            let resultado = await controladorUsuarios.verComentarios(id_tecler)
+            if(resultado){
+                res.status(200).json(resultado);
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
     // Rutas para Amigos
     app.post('/solicitud/:id', async (req, res) => {
         let id_tecler = req.params.id;
@@ -316,6 +329,18 @@ module.exports = async (app)=> {
             }      
         }catch (error){
             res.status(400).json({error: "Ocurrio un error no se pudo agregar"})
+        }
+    })
+
+    app.get('/amigos/:id', async (req, res) => {
+        let id = req.params.id;
+        try {
+            let resultado = await controladorUsuarios.verAmigos(id)
+            if(resultado){
+                res.status(200).json(resultado);
+            }      
+        }catch (error){
+            res.status(400).json({error: "Ocurrio un error no se puede mostrar"})
         }
     })
 }

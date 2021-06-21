@@ -13,7 +13,7 @@ const upload = multer({
     storage: almacenamiento,
     dest: 'uploads',
     fileFilter: (req, file, callback) => {
-        const filetypes = /jpeg|jpg|png|gif/;
+        const filetypes = /jpeg|jpg|png/;
         const mimetype = filetypes.test(file.mimetype);
         const extname = filetypes.test(path.extname(file.originalname));
         if(mimetype && extname){

@@ -1,3 +1,4 @@
+const sequelize = require('../../db/conexion');
 const Usuarios = require('../../db/db.usuarios');
 const Habilidades = require('../../db/db.habilidadesBlandas');
 const Conocimientos = require('../../db/db.conocimientos');
@@ -78,6 +79,29 @@ module.exports = class ModelUsers {
             pass: this.pass,
             nacimiento: this.nacimiento,
             pais: this.pais,
+            ciudad: this.ciudad
+        }, 
+          {where: { id : id}})
+          let usuarioModificado = await Usuarios.findOne({where: {id: id}})
+        return usuarioModificado;
+      }
+    } catch (error) {
+      throw new Error ('No se pudo actualizar')
+    }        
+  }
+
+  actualizarUsuarioFoto = async (id) => {        
+    try {
+      let modificado = await Usuarios.findOne({where: {id: id}})
+      if(modificado != null)
+      {
+        await Usuarios.update({
+            nombres: this.nombres,
+            apellidos: this.apellidos,
+            email: this.email,
+            pass: this.pass,
+            nacimiento: this.nacimiento,
+            pais: this.pais,
             ciudad: this.ciudad,
             foto: this.foto
         }, 
@@ -105,7 +129,7 @@ module.exports = class ModelUsers {
     try{
       let resultado = await Usuarios.findOne({
         where: { id : id },
-        attributes: ['id', 'nombres', 'apellidos', 'email', 'pass', 'nacimiento', 'pais', 'ciudad', 'foto'],
+        attributes: ['id', 'nombres', 'apellidos', 'email', 'nacimiento', 'pais', 'ciudad', 'foto'],
         include: [                                                        
           {
             model: Hobbies,
@@ -125,23 +149,23 @@ module.exports = class ModelUsers {
           },
           {
             model: Habilidades,
-            attributes: ['habilidad', 'validado'],                        
+            attributes: ['id', 'habilidad', 'validado'],                        
           },
           {
             model: Desempenio,
-            attributes: ['actividad', 'validado'],                        
+            attributes: ['id', 'actividad', 'validado'],                        
           },
           {
             model: Entornos,
-            attributes: ['entorno', 'validado'],                        
+            attributes: ['id', 'entorno', 'validado'],                        
           },
           {
             model: Tecnologias,
-            attributes: ['tecnologia', 'validado'],                        
+            attributes: ['id', 'tecnologia', 'validado'],                        
           },
           {
             model: Conocimientos,
-            attributes: ['conocimiento', 'validado'],                        
+            attributes: ['id', 'conocimiento', 'validado'],                        
           }
         ]
       })
@@ -164,7 +188,6 @@ module.exports = class ModelUsers {
 
   static agregarHabilidadBlanda = async (id, array) => {
     try {
-      Habilidades.destroy({where: { tecler_id: id }});
       array.habilidades.forEach( async element => {
         await Habilidades.findOrCreate({
           where: {
@@ -179,9 +202,9 @@ module.exports = class ModelUsers {
     }
   }
 
-  static validarHabilidadBlanda = async (id, habilidad) => {
+  static validarHabilidadBlanda = async (id) => {
     try {
-      let existe = await Habilidades.findOne({ where: { habilidad: habilidad.habilidad, tecler_id: id } })
+      let existe = await Habilidades.findOne({ where: { id: id } })
       if(!existe){
         throw new Error ('No se pudo validar la habilidad, no existe')
       } else {
@@ -196,7 +219,6 @@ module.exports = class ModelUsers {
 
   static agregarConocimientos = async (id, array) => {
     try {
-      Conocimientos.destroy({where: { tecler_id: id }});
       array.conocimientos.forEach( async element => {
         await Conocimientos.findOrCreate({
           where: {
@@ -211,9 +233,9 @@ module.exports = class ModelUsers {
     }
   }
 
-  static validarConocimientos = async (id, conocimiento) => {
+  static validarConocimientos = async (id) => {
     try {
-      let existe = await Conocimientos.findOne({ where: { conocimiento: conocimiento.conocimiento, tecler_id: id } })
+      let existe = await Conocimientos.findOne({ where: { id: id } })
       if(!existe){
         throw new Error ('No se pudo validar el conocimiento, no existe')
       } else {
@@ -228,7 +250,6 @@ module.exports = class ModelUsers {
 
   static agregarActividades = async (id, array) => {
     try {
-      Desempenio.destroy({where: { tecler_id: id }});
       array.actividades.forEach( async element => {
         await Desempenios.findOrCreate({
           where: {
@@ -243,9 +264,9 @@ module.exports = class ModelUsers {
     }
   }
 
-  static validarActividades = async (id, actividad) => {
+  static validarActividades = async (id) => {
     try {
-      let existe = await Desempenios.findOne({ where: { actividad: actividad.actividad, tecler_id: id } })
+      let existe = await Desempenios.findOne({ where: { id: id } })
       if(!existe){
         throw new Error ('No se pudo validar el desempeño en la actividad, no existe')
       } else {
@@ -260,7 +281,6 @@ module.exports = class ModelUsers {
 
   static agregarEntornosP = async (id, array) => {
     try {
-      Entornos.destroy({where: { tecler_id: id }});
       array.entornos.forEach( async element => {
         await Entornos.findOrCreate({
           where: {
@@ -275,9 +295,9 @@ module.exports = class ModelUsers {
     }
   }
 
-  static validarEntornoP = async (id, entorno) => {
+  static validarEntornoP = async (id) => {
     try {
-      let existe = await Entornos.findOne({ where: { entorno: entorno.entorno, tecler_id: id } })
+      let existe = await Entornos.findOne({ where: { id: id } })
       if(!existe){
         throw new Error ('No se pudo validar el entorno profesional, no existe')
       } else {
@@ -292,7 +312,6 @@ module.exports = class ModelUsers {
 
   static agregarTecno = async (id, array) => {
     try {
-      Tecnologias.destroy({where: { tecler_id: id }});
       array.tecnologias.forEach( async element => {
         await Tecnologias.findOrCreate({
           where: {
@@ -307,9 +326,9 @@ module.exports = class ModelUsers {
     }
   }
 
-  static validarTecno = async (id, tecnologia) => {
+  static validarTecno = async (id) => {
     try {
-      let existe = await Tecnologias.findOne({ where: { tecnologia: tecnologia.tecnologia, tecler_id: id } })
+      let existe = await Tecnologias.findOne({ where: { id: id } })
       if(!existe){
         throw new Error ('No se pudo validar la tecnologia, no existe')
       } else {
@@ -324,7 +343,6 @@ module.exports = class ModelUsers {
 
   static agregarEscuela = async (id, array) => {
     try {
-      Estudios.destroy({where: { tecler_id: id }});
       array.estudios.forEach( async element => {
         await Estudios.findOrCreate({
           where: {
@@ -342,7 +360,6 @@ module.exports = class ModelUsers {
 
   static agregarLenguaje = async (id, array) => {
     try {
-      Idiomas.destroy({where: { tecler_id: id }});
       array.idiomas.forEach( async element => {
         await Idiomas.findOrCreate({
           where: {
@@ -360,7 +377,6 @@ module.exports = class ModelUsers {
 
   static agregarSociales = async (id, array) => {
     try {
-      Redes.destroy({where: { tecler_id: id }});
       array.redes.forEach( async element => {
         await Redes.findOrCreate({
           where: {
@@ -378,7 +394,6 @@ module.exports = class ModelUsers {
 
   static agregarPasatiempos = async (id, array) => {
     try {
-      Hobbies.destroy({where: { tecler_id: id }});
       array.hobbies.forEach( async element => {
         await Hobbies.findOrCreate({
           where: {
@@ -408,7 +423,6 @@ module.exports = class ModelUsers {
 
   static solicitarAmistad = async (id_tecler, amigo) => {
     try {
-      Amigos.destroy({ where: { tecler_amigo_id: amigo.id}})
         await Amigos.findOrCreate({
           where: {
               tecler_amigo_id: amigo.id,
@@ -417,6 +431,40 @@ module.exports = class ModelUsers {
           }
         })
     return true
+    } catch (error) {
+      throw new Error ('No se pudo agregar la solicitud')
+    }
+  }
+
+  static listarAmigos = async (id) => {
+    try {
+        // let resultado = await Amigos.findAll({
+        //   where: { aceptado: true, tecler_id: id },
+        //   attributes: ['tecler_amigo_id'],
+        //   include: [
+        //     {
+        //       model: Usuarios,
+        //       require: true,
+        //       foreignKey: 'tecler_amigo_id',
+        //       attributes: ['nombres', 'apellidos'],
+        //     }
+        //   ]
+        // })
+      let data = [id]
+      let resultado = await sequelize.query(`SELECT dbo.usuarios.id, dbo.usuarios.nombres, dbo.usuarios.apellidos FROM dbo.amigos INNER JOIN dbo.usuarios ON tecler_amigo_id = usuarios.id WHERE aceptado = 'true' AND tecler_id = ? `,
+      {replacements : data, type : sequelize.QueryTypes.SELECT})
+    return resultado
+    } catch (error) {
+      throw new Error ('No se pudo agregar la solicitud')
+    }
+  }
+
+  static listarComentarios = async (id) => {
+    try {
+      let data = [id]
+      let resultado = await sequelize.query(`SELECT dbo.usuarios.id, dbo.usuarios.nombres, dbo.usuarios.apellidos, dbo.feedbacks.comentario FROM dbo.feedbacks INNER JOIN dbo.usuarios ON tecler_amigo_id = usuarios.id WHERE tecler_id = ? `,
+      {replacements : data, type : sequelize.QueryTypes.SELECT})
+    return resultado
     } catch (error) {
       throw new Error ('No se pudo agregar la solicitud')
     }

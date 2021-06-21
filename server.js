@@ -61,17 +61,17 @@ async function inicioServidor() {
         await Idiomas.sync();
         await Desempenio.sync();
 
-        await Usuarios.findOrCreate({
-            where: {
-                nombres: 'Aldair', 
-                apellidos: 'Santiago', 
-                email: 'aldair@admin.com', 
-                pass: 'holitas123', 
-                nacimiento: '1998-04-27',
-                pais: 'México',
-                ciudad: 'Estado de México'
-            }
-        })
+        // await Usuarios.findOrCreate({
+        //     where: {
+        //         nombres: 'Aldair', 
+        //         apellidos: 'Santiago', 
+        //         email: 'aldair@admin.com', 
+        //         pass: 'holitas123', 
+        //         nacimiento: '1998-04-27',
+        //         pais: 'México',
+        //         ciudad: 'Estado de México'
+        //     }
+        // })
         await sequelize.authenticate();
         console.log('Conexion con la DB correcta!');
         app.listen(process.env.PORT, function (){

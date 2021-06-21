@@ -81,9 +81,16 @@ module.exports.buscarUsuarios = async ()=>{
 module.exports.updateUsuario = async (id, imagen, user) => {
     const { nombres, apellidos, email, pass, fecha, pais, ciudad} = user;
     const foto = imagen;
-    let usuarioActualizar = new ModelUsers(nombres, apellidos, email, pass, fecha, pais, ciudad, foto); 
+    let usuarioActualizar;
+    let resultado;
     try {
-        let resultado =  await usuarioActualizar.actualizarUsuario(id);
+    if(foto == null){
+        usuarioActualizar = new ModelUsers(nombres, apellidos, email, pass, fecha, pais, ciudad, "");
+        resultado =  await usuarioActualizar.actualizarUsuario(id);
+    } else {
+        usuarioActualizar = new ModelUsers(nombres, apellidos, email, pass, fecha, pais, ciudad, foto);
+        resultado =  await usuarioActualizar.actualizarUsuarioFoto(id);
+    }   
         let result = resultado.dataValues;
         return result;
     }catch (err){
@@ -113,9 +120,9 @@ module.exports.agregarHabilidad = async (id, habilidad) => {
     }
 }
 
-module.exports.validarHabilidad = async (id, habilidad) => {
+module.exports.validarHabilidad = async (id) => {
     try {
-        let result = await ModelUsers.validarHabilidadBlanda(id, habilidad);
+        let result = await ModelUsers.validarHabilidadBlanda(id);
         if(result){
             return true
         } else {
@@ -139,9 +146,9 @@ module.exports.agregarConocimiento = async (id, conocimiento) => {
     }
 }
 
-module.exports.validarConocimiento = async (id, conocimiento) => {
+module.exports.validarConocimiento = async (id) => {
     try {
-        let result = await ModelUsers.validarConocimientos(id, conocimiento);
+        let result = await ModelUsers.validarConocimientos(id);
         if(result){
             return true
         } else {
@@ -165,9 +172,9 @@ module.exports.agregarDesempenio = async (id, desempenio) => {
     }
 }
 
-module.exports.validarDesempenio = async (id, desempenio) => {
+module.exports.validarDesempenio = async (id) => {
     try {
-        let result = await ModelUsers.validarActividades(id, desempenio);
+        let result = await ModelUsers.validarActividades(id);
         if(result){
             return true
         } else {
@@ -191,9 +198,9 @@ module.exports.agregarEntornos = async (id, entorno) => {
     }
 }
 
-module.exports.validarEntorno = async (id, entorno) => {
+module.exports.validarEntorno = async (id) => {
     try {
-        let result = await ModelUsers.validarEntornoP(id, entorno);
+        let result = await ModelUsers.validarEntornoP(id);
         if(result){
             return true
         } else {
@@ -217,9 +224,9 @@ module.exports.agregarTecnologias = async (id, tecnologia) => {
     }
 }
 
-module.exports.validarTecnologia = async (id, tecnologia) => {
+module.exports.validarTecnologia = async (id) => {
     try {
-        let result = await ModelUsers.validarTecno(id, tecnologia);
+        let result = await ModelUsers.validarTecno(id);
         if(result){
             return true
         } else {
@@ -300,6 +307,32 @@ module.exports.agregarAmigo = async (id_tecler, amigo) => {
         let result = await ModelUsers.solicitarAmistad(id_tecler, amigo);
         if(result){
             return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo hacer la solicitud');
+    }
+}
+
+module.exports.verAmigos = async (id) => {
+    try {
+        let result = await ModelUsers.listarAmigos(id);
+        if(result){
+            return result
+        } else {
+            return false
+        }
+    } catch (error) {
+        throw new Error ('No se pudo hacer la solicitud');
+    }
+}
+
+module.exports.verComentarios = async (id) => {
+    try {
+        let result = await ModelUsers.listarComentarios(id);
+        if(result){
+            return result
         } else {
             return false
         }

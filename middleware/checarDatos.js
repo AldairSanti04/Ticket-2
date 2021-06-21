@@ -37,7 +37,7 @@ module.exports = {
     modeloEntornos: Joi.object().keys({
         entornos: Joi.array().items(
             Joi.object().keys({
-                entorno: Joi.string().regex(/^[ .a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/).max(50).required(),
+                entorno: Joi.string().max(50).required(),
             })
         )
     }),
@@ -87,7 +87,7 @@ module.exports = {
     modeloEstudios: Joi.object().keys({
         estudios: Joi.array().items(
             Joi.object().keys({
-                escuela: Joi.string().alphanum().required().max(150),
+                escuela: Joi.string().required().max(150),
                 especialidad: Joi.string().regex(/^[ .a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/).max(100).required(),
             })
         )
